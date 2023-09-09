@@ -15,7 +15,7 @@ const register = async (req, res, next) => {
             isAdmin: user.isAdmin
         };
 
-        const accessToken = await generateToken(payload);
+        const accessToken = await generateToken({ payload });
 
         const response = {
             code: 201,

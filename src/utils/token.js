@@ -10,9 +10,10 @@ const generateToken = ({
     try {
         return jwt.sign(payload, secret, {
             algorithm: alogorithm,
-            expiredIn: expiredIn
+            expiresIn: expiredIn
         })
     } catch (err) {
+        console.log(err)
         throw serverError()
     }
 }
