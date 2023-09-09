@@ -11,4 +11,8 @@ router
   .route("/api/v1/reports")
   .post(reportController.create);
 
+router
+  .route("/api/v1/reports/:id")
+  .put(reportController.update)
+
 module.exports = router;
