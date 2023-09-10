@@ -1,39 +1,41 @@
 const jwt = require("jsonwebtoken");
 const { serverError, authenticationError } = require("./error");
 
+// Function to generate a JWT token
 const generateToken = ({
-    payload, 
-    alogorithm = 'HS256',
+    payload,
+    algorithm = 'HS256',
     secret = process.env.ACCESS_TOKEN_SECRET,
-    expiredIn = '10m'
+    expiresIn = '10m'
 }) => {
     try {
+        // Signing the payload to create a JWT token with the specified options
         return jwt.sign(payload, secret, {
-            algorithm: alogorithm,
-            expiresIn: expiredIn
-        })
+            algorithm: algorithm,
+            expiresIn: expiresIn
+        });
     } catch (err) {
-        console.log(err)
-        throw serverError()
+        throw serverError();
     }
-}
+};
 
+// Function to verify a JWT token
 const verifyToken = ({
     token,
-    alogorithm = 'HS256',
+    algorithm = 'HS256',
     secret = process.env.ACCESS_TOKEN_SECRET
 }) => {
     try {
+        // Verifying the token's authenticity using the provided secret and algorithm
         return jwt.verify(token, secret, {
-            algorithms: alogorithm
-        })
-
+            algorithms: algorithm
+        });
     } catch (err) {
         throw authenticationError();
     }
-}
+};
 
 module.exports = {
     generateToken,
     verifyToken
-}
+};

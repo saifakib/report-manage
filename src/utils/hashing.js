@@ -1,13 +1,15 @@
 const bcrypt = require('bcryptjs');
 
-const generateHash = async(payload, saltRound = 10) => {
+// Generate a bcrypt hash for a given payload
+const generateHash = async (payload, saltRound = 10) => {
     const salt = await bcrypt.genSalt(saltRound);
+    
     const hash = await bcrypt.hash(payload, salt);
-
     return hash;
 };
 
-const hashMatched = async(raw, hash) => {
+// Compare a raw input (e.g., user input) with a bcrypt hash
+const hashMatched = async (raw, hash) => {
     const result = await bcrypt.compare(raw, hash);
     return result;
 };
@@ -15,5 +17,4 @@ const hashMatched = async(raw, hash) => {
 module.exports = {
     generateHash,
     hashMatched
-}
-
+};
