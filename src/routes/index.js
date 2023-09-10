@@ -8,6 +8,9 @@ const authorize = require("../middleware/authorize")
 router.post("/api/v1/auth/register", authController.register); 
 router.post("/api/v1/auth/login", authController.login); 
 
+// Refresh Token
+router.post("/api/v1/auth/refreshToken", authController.refreshToken);
+
 // Report Routes
 router
   .route("/api/v1/reports")

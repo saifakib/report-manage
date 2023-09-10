@@ -11,8 +11,8 @@ const hasUser = async (email) => {
     return user ? true : false;
 }
 
-const createUser = async ({ name, email, phone, password, profession, favoriteColors, isAdmin }) => {
-    const user = new User({ name, email, phone, password, profession, favoriteColors, isAdmin });
+const createUser = async ({ name, email, phone, password, address, profession, favoriteColors, isAdmin }) => {
+    const user = new User({ name, email, phone, password, address, profession, favoriteColors, isAdmin });
     await user.save();
     return { ...user._doc, id: user.id };
 }

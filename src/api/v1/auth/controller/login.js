@@ -6,13 +6,14 @@ const login = async (req, res, next) => {
 
     try {
 
-        const accessToken = await authService.login({ email, password });
+        const { accessToken, refreshToken } = await authService.login({ email, password });
 
         const response = {
 			code: 200,
 			message: 'Login successful',
 			data: {
 				access_token: accessToken,
+				refresh_token: refreshToken
 			},
 			links: {
 				self: req.url,

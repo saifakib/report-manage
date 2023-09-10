@@ -10,12 +10,10 @@ const update = async (req, res, next) => {
         });
 
         const response = {
-            code: 200,
+            code: 201,
             message: 'Report updated successfully' ,
             data: report,
         }
-
-        res.status(code).json(response);
 
         res.status(201).json(response);
 

@@ -1,11 +1,13 @@
 const { authorizationError } = require("../utils/error");
 
+// Middleware function for authorization
 const authorize = (req, _res, next) => {
-    if(req.user.isAdmin == true) {
+    // Checking if the user has admin privileges (isAdmin flag)
+    if (req.user.isAdmin) {
         return next();
     }
 
-    return authorizationError();
-}
+    next(authorizationError());
+};
 
 module.exports = authorize;

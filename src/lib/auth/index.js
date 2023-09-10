@@ -3,7 +3,7 @@ const { generateHash, hashMatched } = require("../../utils/hashing");
 const { hasUser, createUser, findUserByEmail } = require("../user");
 const { generateToken } = require("../../utils/token");
 
-const register = async ({ name, email, phone, password, profession=null, favoriteColors=[], isAdmin=false }) => {
+const register = async ({ name, email, phone, password, address,profession=null, favoriteColors=[], isAdmin=false }) => {
     const userExits = await hasUser(email);
 
     if(userExits) {
@@ -12,7 +12,7 @@ const register = async ({ name, email, phone, password, profession=null, favorit
 
     password = await generateHash(password, 11);
 
-    const user = await createUser({ name, email, phone, password, profession, favoriteColors, isAdmin });
+    const user = await createUser({ name, email, phone, password, address, profession, favoriteColors, isAdmin });
     return user;
 
 }
@@ -38,7 +38,12 @@ const login = async ({ email, password }) => {
         isAdmin: user.isAdmin
     };
 
-    return generateToken({ payload });
+    const accessToken = generateToken({ payload });
+    const refreshToken = generateToken({ payload, secret: process.env.REFRESH_TOKEN_SECRET, expiredIn: '7d' });
+    return {
+        accessToken,
+        refreshToken
+    };
 }
 
 

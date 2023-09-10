@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
-const { serverError } = require("./error");
+const { serverError, authenticationError } = require("./error");
 
 const generateToken = ({
     payload, 
     alogorithm = 'HS256',
     secret = process.env.ACCESS_TOKEN_SECRET,
-    expiredIn = '1h'
+    expiredIn = '10m'
 }) => {
     try {
         return jwt.sign(payload, secret, {
@@ -25,11 +25,11 @@ const verifyToken = ({
 }) => {
     try {
         return jwt.verify(token, secret, {
-            algorithms: [alogorithm]
+            algorithms: alogorithm
         })
 
     } catch (err) {
-        throw serverError();
+        throw authenticationError();
     }
 }
 
