@@ -18,6 +18,22 @@ const generateToken = ({
     }
 }
 
+const verifyToken = ({
+    token,
+    alogorithm = 'HS256',
+    secret = process.env.ACCESS_TOKEN_SECRET
+}) => {
+    try {
+        return jwt.verify(token, secret, {
+            algorithms: [alogorithm]
+        })
+
+    } catch (err) {
+        throw serverError();
+    }
+}
+
 module.exports = {
-    generateToken
+    generateToken,
+    verifyToken
 }

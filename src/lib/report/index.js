@@ -27,7 +27,17 @@ const update = async({ id, name, email, phone, address, profession, favoriteColo
       report: { ...report._doc, id: report.id },
       code: 200,
     };
-}
+};
+
+const remove = async (id) => {
+  const report = await Report.findById(id);
+
+  if (!report) {
+    throw notFound();
+  }
+
+  return Report.findByIdAndDelete(id);
+};
 
 
-module.exports = { create, update }
+module.exports = { create, update, remove }

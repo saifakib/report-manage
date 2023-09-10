@@ -1,13 +1,10 @@
 const express = require('express');
+const applyMiddleware = require('./middleware');
 const routes = require('./routes');
 
 // express app
 const app = express();
-
-// Add this line to parse JSON request bodies
-app.use(express.json());
-
-
+applyMiddleware(app);
 app.use(routes);
 
 app.use("/", (req, res) => {
