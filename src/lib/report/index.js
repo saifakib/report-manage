@@ -1,6 +1,18 @@
 const { Report } = require("../../model");
 const { notFound } = require("../../utils/error")
 
+
+
+const findAll = async () => {
+  const reports = await Report.find();
+
+  return reports.map((report) => ({
+    ...report._doc,
+    id: report.id,
+  }));
+};
+
+
 const create = async ({ name, email, phone, address, profession, favoriteColors=[] }) => {
 
     const report = new Report({ name, email, phone, address, profession, favoriteColors });
@@ -40,4 +52,4 @@ const remove = async (id) => {
 };
 
 
-module.exports = { create, update, remove }
+module.exports = { findAll, create, update, remove }

@@ -11,6 +11,7 @@ router.post("/api/v1/auth/login", authController.login);
 // Report Routes
 router
   .route("/api/v1/reports")
+  .get(authenticate, reportController.findAll)
   .post(authenticate, authorize, reportController.create);
 
 router
