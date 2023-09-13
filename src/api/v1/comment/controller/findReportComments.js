@@ -1,7 +1,7 @@
 const commentService = require("../../../../lib/comment");
 
 // Get all reports
-const findReportComments = async (_, res, next) => {
+const findReportComments = async (req, res, next) => {
     const { id } = req.params;
   try {
     const comments = await commentService.findComments(id);

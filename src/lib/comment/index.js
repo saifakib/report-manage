@@ -19,7 +19,7 @@ const create = async ({ reportId, userId, comment }) => {
   return { ...createComment._doc, id: createComment.id };
 };
 
-const findComments = async ({ reportId }) => {
+const findComments = async (reportId) => {
   const comments = await Comment.find({ report: reportId })
     .populate("author", "name email")
     .exec();
