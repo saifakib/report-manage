@@ -12,6 +12,13 @@ const findAll = async () => {
   }));
 };
 
+// Function to find one report in the database
+const findOne = async (id) => {
+  const report = await Report.findById(id);
+
+  return report ? report : false;
+};
+
 // Function to create a new report in the database
 const create = async ({ name, email, phone, address, profession, favoriteColors = [] }) => {
   const report = new Report({ name, email, phone, address, profession, favoriteColors });
@@ -57,4 +64,4 @@ const remove = async (id) => {
   return Report.findByIdAndDelete(id);
 };
 
-module.exports = { findAll, create, update, remove };
+module.exports = { findAll, findOne, create, update, remove };

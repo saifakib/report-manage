@@ -1,12 +1,13 @@
 const router = require("express").Router();
 const { controllers: authController } = require("../api/v1/auth");
 const { controllers: reportController } = require("../api/v1/report");
+const { controllers: commentController } = require("../api/v1/comment");
 const authenticate = require("../middleware/authenticate");
-const authorize = require("../middleware/authorize")
+const authorize = require("../middleware/authorize");
 
 // Auth Routes
-router.post("/api/v1/auth/register", authController.register); 
-router.post("/api/v1/auth/login", authController.login); 
+router.post("/api/v1/auth/register", authController.register);
+router.post("/api/v1/auth/login", authController.login);
 
 // Refresh Token
 router.post("/api/v1/auth/refreshToken", authController.refreshToken);
@@ -21,5 +22,10 @@ router
   .route("/api/v1/reports/:id")
   .put(authenticate, authorize, reportController.update)
   .delete(authenticate, authorize, reportController.remove);
+
+router
+  .route("/api/v1/reports/:id/comments")
+  .get(authenticate, commentController.findReportComments)
+  .put(authenticate, commentController.create);
 
 module.exports = router;
