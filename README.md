@@ -1,4 +1,4 @@
-# Report Management API
+# Report Manage API
 
 The Report Management API is designed to manage reports and user authentication. This document provides an overview of the available endpoints and their functionalities.
 
