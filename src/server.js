@@ -12,7 +12,7 @@ const main = async () => {
         .then(() => {
             server.listen(port, () => {
                 console.log(`Server is listening on port ${port}`)
-            })
+            });
         })
     } catch(err) {
 		console.log(err);

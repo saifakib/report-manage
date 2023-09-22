@@ -27,7 +27,10 @@ const userBookmarkService = async (userId) => {
     .populate("bookmarks", "name details")
     .exec();
 
-    return userBookmarks;
+  const sanitizedUser = { ...userBookmarks._doc };
+  delete sanitizedUser.password;
+
+  return sanitizedUser;
 };
 
 module.exports = { create, userBookmarkService };

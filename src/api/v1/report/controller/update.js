@@ -4,12 +4,12 @@ const reportService = require("../../../../lib/report");
 const update = async (req, res, next) => {
     const { id } = req.params;
     
-    const { name, email, phone, address, profession, favoriteColors } = req.body;
+    const { name, details } = req.body;
 
     try {
         // Attempting to update the report with the provided information
         const report = await reportService.update({
-            id, name, email, phone, address, profession, favoriteColors
+            id, name, details
         });
 
         const response = {

@@ -14,7 +14,7 @@ const create = async ({ reportId, userId, comment }) => {
     report: reportId,
     comment: comment,
   });
-  await comments.save();
+  await createComment.save();
 
   return { ...createComment._doc, id: createComment.id };
 };

@@ -17,8 +17,8 @@ const hasUser = async (email) => {
 }
 
 // Function to create a new user in the database
-const createUser = async ({ name, email, phone, password, address, profession, favoriteColors, isAdmin }) => {
-    const user = new User({ name, email, phone, password, address, profession, favoriteColors, isAdmin });
+const createUser = async ({ name, email, password, isAdmin }) => {
+    const user = new User({ name, email, password, isAdmin  });
     await user.save();
     
     // Returning the created user with its ID

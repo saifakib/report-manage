@@ -3,18 +3,17 @@ const { generateToken } = require("../../../../utils/token");
 
 // Handling user registration
 const register = async (req, res, next) => {
-    const { name, email, phone, password, address, profession, favoriteColors, isAdmin } = req.body;
+    const { name, email, password, isAdmin } = req.body;
 
     try {
         // Attempting to register a new user with the provided information
-        const user = await authService.register({ name, email, phone, password, address, profession, favoriteColors, isAdmin });
+        const user = await authService.register({ name, email, password, isAdmin });
 
         // Creating a payload with user information for JWT token generation
         const payload = {
             id: user.id,
             name: user.name,
             email: user.email,
-            phone: user.phone,
             isAdmin: user.isAdmin
         };
 
@@ -27,7 +26,7 @@ const register = async (req, res, next) => {
             message: 'Signup successful',
             data: {
                 access_token: accessToken,
-                refreshToken: refreshToken
+                refresh_token: refreshToken
             },
             links: {
                 self: req.url,

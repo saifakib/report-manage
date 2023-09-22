@@ -21,15 +21,16 @@ router
 
 router
   .route("/api/v1/reports/:id")
+  .get(authenticate, reportController.findSingle)
   .put(authenticate, authorize, reportController.update)
   .delete(authenticate, authorize, reportController.remove);
 
 router
   .route("/api/v1/reports/:id/comments")
   .get(authenticate, commentController.findReportComments)
-  .put(authenticate, commentController.create);
+  .post(authenticate, commentController.create);
 
 router.put("/api/v1/reports/:id/bookmark", authenticate, bookmarkController.create);
-router.put("/api/v1/users/bookmarks", authenticate, bookmarkController.userBookmarkReports);
+router.get("/api/v1/users/bookmarks", authenticate, bookmarkController.userBookmarkReports);
 
 module.exports = router;

@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const { serverError, authenticationError } = require("./error");
 
 // Function to generate a JWT token
-const generateToken = ({
+const generateToken = async ({
     payload,
     algorithm = 'HS256',
     secret = process.env.ACCESS_TOKEN_SECRET,

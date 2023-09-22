@@ -67,16 +67,11 @@ Before you begin, ensure you have met the following requirements:
 
 ### Run this Project
    ```bash
-   git clone https://github.com/saifakib/BlockStakReportManagementMERN.git
+   git clone https://github.com/saifakib/post-manage.git
    cd your-project-name
    npm install
    npm run dev
    ```
 
-### Postman Collection
-
-To test the API endpoints, you can use the provided Postman collection. Import the collection into Postman to access pre-configured requests.
-
-- [Postman Collection](https://www.postman.com/fuchisia/workspace/report-management-api)
 
 

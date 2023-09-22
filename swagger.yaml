@@ -1,0 +1,651 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "Report Management API"
+  description: "This API allows admin to manage reports. Admin can create, retrieve, update, and delete reports, as well as user can add comments and bookmarks to reports."
+  contact:
+    name: Report
+    url: https://report.com
+    email: support@report.com
+servers:
+  - description: Dev
+    url: "http://localhost:4000/api/v1"
+tags:
+  - name: Auth
+    description: Authentication Endpoints (public)
+  - name: Report
+    description: Report Endpoints (private)
+  - name: Comment
+    description: Comment Endpoints (Private)
+  - name: Bookmark
+    description: Bookmark Endpoints (Private)
+paths:
+  "/auth/register":
+    post:
+      description: create a new account
+      tags: [Auth]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Saif Uddin
+                email:
+                  type: string
+                  format: email
+                  example: saif@example.com
+                password:
+                  type: string
+                  format: password
+                  example: PassWord123
+              required: [name, email, password]
+      responses:
+        "201":
+          description: Signup successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Signup successful
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                      refresh_token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/auth/register"
+                      login:
+                        type: string
+                        example: "/auth/login"
+        "404":
+          $ref: '#/components/responses/404'
+        "500":
+          '$ref': '#/components/responses/500'
+        
+        
+  "/auth/login":
+    post:
+      description: Login to your account
+      tags: [Auth]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: saif@example.com
+                password:
+                  type: string
+                  format: password
+                  example: PassWord123
+              required: [email, password]
+      responses:
+        "200":
+          description: Signin successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Signin successful
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY7ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM9MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                      refresh_token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/auth/login"
+        '400':
+          $ref: '#/components/responses/400'  
+        '500':
+          '$ref': '#/components/responses/500'
+  "/auth/refreshToken":
+    post:
+      description: Generate Access Token
+      tags: [Auth]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY7ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM9MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+              required: [refreshToken]
+      responses:
+        "200":
+          description: Access-Token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY7ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM9MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        '400':
+          $ref: '#/components/responses/400'  
+        '500':
+          '$ref': '#/components/responses/500'
+  "/reports":
+    get:
+      security:
+        - BearerAuth: []
+      tags: [Report]
+      description: Retrieve all reports
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+      responses:
+        "200":
+          description: Return a list of reports
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Report"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url
+                        example: "/reports?page=1&limit=10"
+                      next:
+                        type: string
+                        format: url
+                        example: "/reports?page=2&limit=10"
+                      prev:
+                        type: string
+                        format: url
+                        example: "/reports?page=3&limit=10"
+        '400':
+          $ref: '#/components/responses/400'  
+        '500':
+          '$ref': '#/components/responses/500'
+    post:
+      security:
+        - BearerAuth: []
+      tags: [Report]
+      description: Create a new report
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: 
+                  type: string
+                  example: "API"
+                details:
+                  type: string
+                  example: "An application program interface (API) is a set of   routines, protocols, and tools for building software applications"
+      responses:
+        "201":
+          description: Successfully created a new report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportCreateDTO"
+
+  "/reports/{id}":
+    get:
+      security:
+        - BearerAuth: []
+      tags: [Report]
+      description: Fetch a single report
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      responses:
+        "200":
+          description: Single Report view
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Report"
+        '404':
+          $ref: '#/components/responses/404'  
+
+    put:
+      security:
+        - BearerAuth: []
+      tags: [Report]
+      description: Update a report by ID
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: 
+                  type: string
+                  example: "API"
+                details:
+                  type: string
+                  example: "An application program interface (API) is a set of   routines, protocols, and tools for building software applications"
+      responses:
+        "200":
+          description: Successfully updated the report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportUpdateDTO"
+        '404':
+          $ref: '#/components/responses/404'  
+
+    delete:
+      security:
+        - BearerAuth: []
+      tags: [Report]
+      description: Delete a report by ID
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      responses:
+        "204":
+          description: Report deleted successfully
+
+  "/reports/{id}/comments":
+    get:
+      security:
+        - BearerAuth: []
+      tags: [Comment]
+      description: Fetch comments for a report
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      responses:
+        "200":
+          description: Comments for the report
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comments:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Comment"
+
+    post:
+      security:
+        - BearerAuth: []
+      tags: [Comment]
+      description: Add a comment to a report
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: 
+                comment: 
+                  type: string
+                  example: "Understand what is api"
+      responses:
+        "201":
+          description: Comment added successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentCreateDTO"
+
+  "/reports/{id}/bookmark":
+    put:
+      security:
+        - BearerAuth: []
+      tags: [Bookmark]
+      description: Bookmark a report
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      responses:
+        "200":
+          description: Report bookmarked successfully
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 201
+                  message:
+                    type: string
+                    example: "Report added in user bookmarks"
+
+  "/users/bookmarks":
+    get:
+      security:
+        - BearerAuth: []
+      tags: [Bookmark]
+      description: Get user's bookmarked reports
+      responses:
+        "200":
+          description: User's bookmarked reports
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/UserBookmarkDTO"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Report:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        name:
+          type: string
+          example: "Report Name"
+        details:
+          type: string
+          example: "Report Details"
+        updatedAt:
+          type: string
+          example: "2023-09-17T16:22:52.299Z"
+        createdAt:
+          type: string
+          example: "2023-09-17T16:22:52.299Z"
+        link:
+          type: string
+          example: "/reports/650727dcabcd7325747eed16"
+      required: [id, name]
+
+    ReportCreateDTO:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 201
+        message:
+          type: string
+          example: "Report created successfully"
+        data:
+          $ref: "#/components/schemas/Report"
+
+    ReportUpdateDTO:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 200
+        message:
+          type: string
+          example: "Report updated successfully"
+        data:
+          $ref: "#/components/schemas/Report"
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              format: url
+              example: "/reports/1"
+
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        comment:
+          type: string
+          example: "This is a comment"
+        author:
+          $ref: "#/components/schemas/AuthorDTO"
+        report:
+          type: string
+          example: "64fdc582898dac7516576233"
+      required: [id, text, author]
+
+    CommentCreateDTO:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 201
+        message:
+          type: string
+          example: "Comment added successfully"
+        data:
+          $ref: "#/components/schemas/Comment"
+    
+    UserBookmarkDTO:
+      type: object
+      properties: 
+        id: 
+          type: string
+          example: "64fdc582898dac7516576233"
+        name: 
+          type: string
+          example: "User name"
+        email: 
+          type: string
+          example: "user email"
+        bookmarks:
+          type: array
+          items: 
+            type: object
+            properties:
+              _id:
+                type: string
+                example: "64fdc582898dac7516576233"
+              name:
+                type: string
+                example: "Report name"
+
+    AuthorDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        name:
+          type: string
+          example: "John Doe"
+      required: [id, name]
+    Pagination:
+        type: object
+        properties:
+          total:
+            type: integer
+            format: int32
+            example: 100
+          limit:
+            type: integer
+            format: int32
+            example: 10
+          page:
+            type: integer
+            format: int32
+            example: 2
+          pages:
+            type: integer
+            format: int32
+            example: 10
+  parameters:
+    pageParam:
+      in: query
+      name: page
+      description: current page number
+      required: true
+      schema:
+        type: integer
+        format: int32
+        example: 2
+    limitParam:
+      in: query
+      name: limit
+      description: maximum items to be returned
+      required: true
+      schema:
+        type: integer
+        format: int32
+        example: 10
+    sortTypeParam:
+      in: query
+      name: sort_type
+      description: type of sort (asc or dsc)
+      schema:
+        type: string
+        enum: [asc, dsc]
+        example: dsc
+    sortByParam:
+      in: query
+      name: sort_by
+      description: Sort key
+      schema:
+        type: string
+        example: updatedAt
+    searchParam:
+      in: query
+      name: search
+      description: Search term
+      schema:
+        type: string
+        example: title
+    idPathParam:
+      in: path
+      name: id
+      required: true
+      description: Report ID
+      schema:
+        type: string
+        example: "64d268cdeef8c84bb18912db"
+
+  responses:
+    '500':
+      description: 'Internal Server Error'
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 500
+              error:
+                type: string
+                example: Internal Server Error
+              message:
+                type: string
+                example: We are sorry for the inconvenience. Please try again later
+    '400':
+      description: 'Bad Request'
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 400
+              error:
+                type: string
+                example: Bad Request
+    '401':
+      description: Unauthorized
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 401
+              error:
+                type: string
+                example: Unauthorized
+              message:
+                type: string
+                example: You don't have the right permissions
+    '404':
+      description: Resource Not Found
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 404
+              error:
+                type: string
+                example: Not Found
+              message:
+                type: string
+                example: Requested resource not found
+
+
