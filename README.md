@@ -8,7 +8,7 @@ The Report Management API is designed to manage reports and user authentication.
 
 - **Endpoint:** `/api/v1/auth/register`
 - **Method:** `POST`
-- **Description:** Allows users to register by providing their information such as name, email, phone, password, address, profession, favoriteColors, and isAdmin.
+- **Description:** Allows users to register by providing their information such as name, email, password, and isAdmin.
 - **Authentication:** Not required.
 
 ### Login
@@ -58,6 +58,38 @@ The Report Management API is designed to manage reports and user authentication.
 - **Authentication:** Required.
 - **Authorization:** Required (Admin only).
 
+## Comments
+
+### Get All Comments on a specific report
+
+- **Endpoint:** `/api/v1/reports/{id}/comments`
+- **Method:** `GET`
+- **Description:** Retrieves a list of all comments.
+- **Authentication:** Required.
+
+### Post a Comment on a specific report
+
+- **Endpoint:** `/api/v1/reports/{id}/comments`
+- **Method:** `POST`
+- **Description:** Post a Comment on a specific report.
+- **Authentication:** Required.
+
+
+## Bookmarks
+
+### Bookmark a specific report
+
+- **Endpoint:** `/api/v1/reports/{id}/bookmark`
+- **Method:** `PUT`
+- **Description:** Bookmark a specific report.
+- **Authentication:** Required.
+
+### Get all bookmark reports on a verify user
+
+- **Endpoint:** `/api/v1/users/bookmarks`
+- **Method:** `GET`
+- **Description:** Retrive a report list along with user info.
+- **Authentication:** Required.
 
 --
 Before you begin, ensure you have met the following requirements:
