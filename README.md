@@ -99,7 +99,7 @@ Before you begin, ensure you have met the following requirements:
 
 ### Run this Project
    ```bash
-   git clone https://github.com/saifakib/post-manage.git
+   git clone https://github.com/saifakib/report-manage.git
    cd your-project-name
    npm install
    npm run dev
